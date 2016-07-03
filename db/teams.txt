@@ -3,8 +3,8 @@ Amsterdam 1639
 AFC Paris
 FC Berlin
 Prague FC
-Madrid CF
-FC Barcelona
+FC Madrid
+Barcelona United
 Lisbon CP
 Vienna 1739
 Copenhagen DK
@@ -21,7 +21,7 @@ FC Reykjavik
 Moscow PFC
 CSKA Munich
 FK Dubrovnik
-SG Hamburg
+Hamburg United
 Zurich FC
 CD Marseille
 Malmo ZL
