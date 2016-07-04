@@ -56,12 +56,14 @@ def team_selection():
         print('%s, is that your team? Y or N?' % my_team.get_name())
         confirm = input('> ')
         if confirm.upper() == 'Y':
-            print('Alright. You are the now the manager of %s' % my_team.get_name())
+            print('Alright. You are the now the manager of %s.' % my_team.get_name())
             my_team = gen.PlayerTeam(my_team.get_name(), my_team.prestige)    #so this creates a new type of team using the class PlayerTeam with the information from the old team
             league.team_list[int(choice)-1] = my_team #this line then replaces the old team with the new team in the list of team objects
+            print(str(my_team.prestige))
             print('Here are your current players, and some information about them:')
+            print('Name:'.ljust(25, ' ') + ' | ' + 'Position:'.ljust(10, ' ') + ' | ' + 'Rating:')
             for x in range(len(my_team.player_list)):
-                print(my_team.player_list[x].get_name())
+                print(my_team.player_list[x].get_name().ljust(25, ' ') + ' | ' + my_team.player_list[x].get_position().ljust(10, ' ') + ' | ' + str(my_team.player_list[x].get_PPR()))
             break
         elif confirm.upper() == 'N':
             print("Sorry! Let's try that again.")

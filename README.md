@@ -11,7 +11,7 @@ A python based Football (or soccer) management simulation game. Currently in dev
   6. Team Personality - how the team reacts to certain situations, each team may have a different personality base
 2. Player Stats
   1. Height & Weight for Physicality
-  2. DP, MP, AP - defensive, midfield, attacking performance (based on position of player); can vary due to hidden stats
+  2. PPR, Potential Performance Rating is a number ranging from 50-100 reflecting on what a player's near maximum capable level of performance, not accounting for hidden stats
   3. Hidden stats: Loyalty, Consistency, Injury Proneness(?)
 
 ### Tasks
