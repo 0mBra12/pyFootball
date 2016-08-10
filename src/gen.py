@@ -81,9 +81,6 @@ class Team():
 			full_name = first_names.pop() + ' ' + last_names.pop()
 			self.player_list.append(Player(self, full_name, position))
 		
-
-		#TODO make player generation have a certain # of each position, and have balanced stats based on prestige
-
 	def get_name(self):
 		return self.name
 
@@ -98,11 +95,12 @@ class PlayerTeam(Team):
 
 class Player():
 	def __init__(self, team, name, position):
-		#TODO add position, rating, and other stats
+		#TODO add transfer value, physicality
 		self.team = team
 		self.name = name
 		self.position = position
 		self.set_PPR()
+		self.set_hidden_stats()
 
 	def get_name(self):
 		return self.name
@@ -120,42 +118,59 @@ class Player():
 		elif self.position == 3:
 			return 'Attacker'
 
+	def set_physicals(self):
+		if self.position == 0:
+			#heights are given in inches, weights in lbs
+			#weights are calculated by randomly generating a height based on the heights certain professional players in real life and the position being played, then generating
+			#a random BMI between a certain range and finding the height that corresponds with the generated BMI and height
+			#phys could be: if height < thresh & weight < thresh, speed bonus. if height > thresh, aerial bonus. if height > thresh & weight > thresh, strength bonus.
+			#bonus could be added to PPR during random matches
+			self.height = random.randint(73,79)
+			self.weight = int(24*self.height*self.height/703)
+			self.phys = 
+		elif self.position == 1:
+			self.height = random.randint(71,76)
+			self.weight = int(random.randint(21,24)*self.height*self.height/703)
+			self.phys = 
+		elif self.position == 2:
+			self.height = random.randint(66,73)
+			self.weight = int(random.randint(22,24)*self.height*self.height/703)
+			self.phys = 
+		elif self.position == 3:
+			self.height = random.randint(67,76)
+			self.weight = int(random.randint(23,25)*self.height*self.height/703)
+			self.phys = 
+
 	def set_PPR(self):
 		team_prestige = self.team.get_prestige()
 		self.PPR_INIT_SET = True
-		#TODO based on team prestige give each player a PPR, with a % chance based on PPR that the player is very good/amazing
+		#based on team prestige give each player a PPR, with a % chance based on PPR that the player is very good/amazing
 		#PPR stands for Potential Performance Rating and signifies their near maximum capable level of performance
 		rand_val = random.randint(1,100)
-		if team_prestige == 0: # 80% 50-59, 14% chance 60-69, 3% chance 70-79, 2% chance 80-89, 1% chance 90-100
+		if team_prestige == 0: # 80% 50-59, 15% chance 60-69, 5% chance 70-79, 0% chance 80-89, 0% chance 90-100
 			if rand_val <= 80:
 				self.PPR = random.randint(50,59)
+			elif rand_val <= 95:
+				self.PPR = random.randint(60,69)
+			elif rand_val <= 100:
+				self.PPR = random.randint(70,79)
+		elif team_prestige == 1: # 80% chance 60-69, 15% 50-59, 4% chance 70-79, 1% chance 80-89, 0% chance 90-100
+			if rand_val <= 80:
+				self.PPR = random.randint(60,69)
+			elif rand_val <= 95:
+				self.PPR = random.randint(50,59)
+			elif rand_val <= 99:
+				self.PPR = random.randint(70,79)
+			elif rand_val <= 100:
+				self.PPR = random.randint(80,89)
+		elif team_prestige == 2: # 84% chance 70-79, 10% chance 60-69, 3% chance 50-59, 2% chance 80-89, 1% chance 90-100
+			if rand_val <= 84:
+				self.PPR = random.randint(70,79)
 			elif rand_val <= 94:
 				self.PPR = random.randint(60,69)
 			elif rand_val <= 97:
-				self.PPR = random.randint(70,79)
-			elif rand_val <= 99:
-				self.PPR = random.randint(80,89)
-			elif rand_val == 100:
-				self.PPR = random.randint(90,100)
-		elif team_prestige == 1: # 70% chance 60-69, 24% 50-59, 3% chance 70-79, 2% chance 80-89, 1% chance 90-100
-			if rand_val <= 70:
-				self.PPR = random.randint(60,69)
-			elif rand_val <= 94:
 				self.PPR = random.randint(50,59)
-			elif rand_val <= 97:
-				self.PPR = random.randint(70,79)
 			elif rand_val <= 99:
-				self.PPR = random.randint(80,89)
-			elif rand_val == 100:
-				self.PPR = random.randint(90,100)
-		elif team_prestige == 2: # 61% chance 70-79, 20% chance 60-69, 10% chance 50-59, 5% chance 80-89, 4% chance 90-100
-			if rand_val <= 61:
-				self.PPR = random.randint(70,79)
-			elif rand_val <= 81:
-				self.PPR = random.randint(60,69)
-			elif rand_val <= 91:
-				self.PPR = random.randint(50,59)
-			elif rand_val <= 96:
 				self.PPR = random.randint(80,89)
 			elif rand_val <= 100:
 				self.PPR = random.randint(90,100)
@@ -169,4 +184,9 @@ class Player():
 
 	def get_PPR(self):
 		return self.PPR
+
+	def set_hidden_stats(self):
+		self.consistency = random.randint(0,9)
+		self.loyalty = random.randonint(0,9)
+		self.inj_prone = random.randint(0,9)
 

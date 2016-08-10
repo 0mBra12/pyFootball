@@ -52,7 +52,11 @@ def team_selection():
 
     while True:
         choice = input('> ')
-        my_team = league.team_list[int(choice)-1]
+        try:
+            my_team = league.team_list[int(choice)-1]
+        except ValueError:
+            print("Enter a number from 1 to 10.")
+            continue
         print('%s, is that your team? Y or N?' % my_team.get_name())
         confirm = input('> ')
         if confirm.upper() == 'Y':
@@ -69,6 +73,5 @@ def team_selection():
             print("Sorry! Let's try that again.")
         else:
             print("I didn't catch that. Make sure you enter either a Y or an N.")
-
 
 main()
