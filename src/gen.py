@@ -5,16 +5,27 @@ class Manager():
 	#TODO add manager stats and things
 	def __init__(self, name):
 		self.name = name
+		self.league = League()
 
 	def get_name(self):
 		return self.name
+
+	def get_league(self):
+		return self.league
+
+	def set_team(self,my_team):
+		self.team = my_team
+
+	def get_team(self):
+		return self.team
+
 		
 
 class League():
 	def __init__(self):
 		#txt_path = os.getcwd() + '\db\teams.txt'
 		self.team_list = []
-		lines = [line.rstrip('\n') for line in open('../db/teams.txt')]
+		lines = [line.rstrip('\n') for line in open('db/teams.txt')]
 		random.shuffle(lines)
 		#makes a list of all the teams I have in teams.txt and then randomly shuffles them
 
@@ -33,19 +44,23 @@ class League():
 			random.shuffle(self.team_list)
 
 
-		self.games_played = 0
+		self.matchday = 0
 
-	def game_played(self):
-		if self.games_played < 18:
-			self.games_played += 1
+	def matchday_inc(self):
+		if self.matchday < 18:
+			self.matchday += 1
 		else:
 			#TODO end the season
-			self.games_played = 0
+			self.matchday = 0
+
+	def get_team_list(self):
+		return self.team_list
 
 
 
 class Team():
 	def __init__(self, name, prestige):
+		#todo set_passCap, get xDP, xMP, XAP
 		self.name = name
 		self.prestige = prestige
 		if self.prestige == 0:
@@ -62,7 +77,7 @@ class Team():
 
 	def gen_players(self):
 		self.player_list = []
-		names = [line.rstrip('\n') for line in open('../db/players.txt')]
+		names = [line.rstrip('\n') for line in open('db/players.txt')]
 		first_names = names[0].split('/')
 		last_names = names[1].split('/')
 		random.shuffle(first_names)
@@ -95,15 +110,21 @@ class PlayerTeam(Team):
 
 class Player():
 	def __init__(self, team, name, position):
-		#TODO add transfer value, physicality
+		#TODO add transfer value,
 		self.team = team
 		self.name = name
 		self.position = position
 		self.set_PPR()
 		self.set_hidden_stats()
+		self.phys = 0
 
-	def get_name(self):
-		return self.name
+	def get_name(self, firstlast):
+		if firstlast == 'f':
+			return self.name.split()[0]
+		elif firstlast == 'l':
+			return self.name.split()[1]
+		elif firstlast == 'fl':
+			return self.name
 
 	def get_team(self):
 		return self.team
@@ -123,27 +144,32 @@ class Player():
 			#heights are given in inches, weights in lbs
 			#weights are calculated by randomly generating a height based on the heights certain professional players in real life and the position being played, then generating
 			#a random BMI between a certain range and finding the height that corresponds with the generated BMI and height
-			#phys could be: if height < thresh & weight < thresh, speed bonus. if height > thresh, aerial bonus. if height > thresh & weight > thresh, strength bonus.
+			#phys could be: if height < thresh, speed bonus. if weight < thresh, nimble bonus. if height > thresh, aerial bonus. if weight > thresh, strength bonus.
 			#bonus could be added to PPR during random matches
 			self.height = random.randint(73,79)
-			self.weight = int(24*self.height*self.height/703)
-			self.phys = 
+			self.weight = int(24*self.height*self.height/703) # based on neuer, szczesny, courtouis, buffon, de gea, and casillas
 		elif self.position == 1:
 			self.height = random.randint(71,76)
-			self.weight = int(random.randint(21,24)*self.height*self.height/703)
-			self.phys = 
+			self.weight = int(random.randint(21,24)*self.height*self.height/703) # based on boateng, koscielny, kompany, mertesacker, benatia, and hummels
 		elif self.position == 2:
 			self.height = random.randint(66,73)
-			self.weight = int(random.randint(22,24)*self.height*self.height/703)
-			self.phys = 
+			self.weight = int(random.randint(22,24)*self.height*self.height/703) # based on cazorla, iniesta, xhaka, coquellin, rakitic, and modric
 		elif self.position == 3:
 			self.height = random.randint(67,76)
-			self.weight = int(random.randint(23,25)*self.height*self.height/703)
-			self.phys = 
+			self.weight = int(random.randint(23,25)*self.height*self.height/703) # based on ronaldo, peter crouch, bale, messi, and giroud
+
+		if self.height < 68: # 'Cazorla' Bonus
+			self.phys += 1
+		if self.weight < 150: # 'Walcott' Bonus
+			self.phys +=1
+		if self.height > 75: # 'Giroud' Bonus
+			self.phys +=1
+		if self.weight > 195: # 'Akinfenwa' Bonus
+			self.phys += 1
+
 
 	def set_PPR(self):
 		team_prestige = self.team.get_prestige()
-		self.PPR_INIT_SET = True
 		#based on team prestige give each player a PPR, with a % chance based on PPR that the player is very good/amazing
 		#PPR stands for Potential Performance Rating and signifies their near maximum capable level of performance
 		rand_val = random.randint(1,100)
@@ -187,6 +213,9 @@ class Player():
 
 	def set_hidden_stats(self):
 		self.consistency = random.randint(0,9)
-		self.loyalty = random.randonint(0,9)
+		self.loyalty = random.randint(0,9)
 		self.inj_prone = random.randint(0,9)
 
+	def get_gameday_perf(self):
+		#todo make a game performance rating based on consistency, ppr, and physicality bonuses
+		pass
