@@ -2,7 +2,6 @@ import click
 import gen
 import office
 
-global user
 
 def new_game():
     global user
@@ -12,7 +11,7 @@ def new_game():
     click.clear()
     print('Here are the list of teams in the league:')
     for n in range(10):
-       click.echo(str(n + 1) + ') ' + user.get_league().get_team_list()[n].get_name())
+       print('%s) %s' % (str(n + 1), user.get_league().get_team_list()[n].get_name()))
     team_selection()
 
 def load_game():
@@ -41,9 +40,9 @@ def team_selection():
         user.get_league().get_team_list()[user.get_league().get_team_list().index(temp)] = my_team        #this line then replaces the old team with the new team in the list of team objects
         user.set_team(my_team)
         print('Here are your current players, and some information about them:\n')
-        print('Name:'.ljust(25, ' ') + ' | ' + 'Position:'.ljust(10, ' ') + ' | ' + 'Rating:')
-        for x in range(len(my_team.player_list)):
-            print(my_team.player_list[x].get_name('fl').ljust(25, ' ') + ' | ' + my_team.player_list[x].get_position().ljust(10, ' ') + ' | ' + str(my_team.player_list[x].get_PPR()))
+        print('%s | %s | %s' % ('Name:'.ljust(25,' '), 'Position'.ljust(10, ' '), 'Rating:'))
+        for x in range(len(my_team.get_player_list())):
+            print('%s | %s | %s' % (my_team.get_player_list()[x].get_name('fl').ljust(25, ' '), my_team.get_player_list()[x].get_position().ljust(10,' '), str(my_team.get_player_list()[x].get_PPR())))
         while True:    
             if click.confirm('\nRead to move on?'):
                 print('Let\'s head on over to your new office!')
@@ -72,7 +71,6 @@ def main():
     Coded by Justin Auger
     http://justnaugr.github.io\n
     Credits to Click for the great CLI.
-
 
     """
     start = click.prompt('Would you like to start a new game or load a saved game?', type=click.Choice(['new','load']))

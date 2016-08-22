@@ -60,7 +60,7 @@ class League():
 
 class Team():
 	def __init__(self, name, prestige):
-		#todo set_passCap, get xDP, xMP, XAP
+		#todo set_passCap
 		self.name = name
 		self.prestige = prestige
 		if self.prestige == 0:
@@ -74,6 +74,8 @@ class Team():
 		self.wealth = wealth	
 		self.stadium = self.name + ' Stadium'
 		self.gen_players()
+		self.set_xperf()
+
 
 	def gen_players(self):
 		self.player_list = []
@@ -95,6 +97,31 @@ class Team():
 				position = 3
 			full_name = first_names.pop() + ' ' + last_names.pop()
 			self.player_list.append(Player(self, full_name, position))
+
+	def set_xperf(self):
+		xDP_list = []
+		xMP_list = []
+		xAP_list = []
+		for player in self.player_list:
+			if player.get_position() == 'Goalkeeper':
+				xDP_list.append(player.get_PPR())
+			elif player.get_position() == 'Defender':
+				xDP_list.append(player.get_PPR())
+			elif player.get_position() == 'Midfielder':
+				xMP_list.append(player.get_PPR())
+			elif player.get_position() == 'Attacker':
+				xAP_list.append(player.get_PPR())
+		self.xDP = int(sum(xDP_list) / len(xDP_list))
+		self.xMP = int(sum(xMP_list) / len(xMP_list))
+		self.xAP = int(sum(xAP_list) / len(xAP_list))
+
+	def get_xperf(self, perf):
+		if perf == 'xDP':
+			return self.xDP
+		elif perf == 'xMP':
+			return self.xMP
+		elif perf == 'xAP':
+			return self.xAP
 		
 	def get_name(self):
 		return self.name
@@ -106,6 +133,8 @@ class Team():
 class PlayerTeam(Team):
 	def add_player_list(self, player_list):
 		self.player_list = player_list
+	def get_player_list(self):
+		return self.player_list
 
 
 class Player():
@@ -219,3 +248,4 @@ class Player():
 	def get_gameday_perf(self):
 		#todo make a game performance rating based on consistency, ppr, and physicality bonuses
 		pass
+		
