@@ -21,4 +21,4 @@ A python based Football (or soccer) management simulation game. Currently in dev
 - [ ] Possibly add names and stats to other managers to allow rivalries to form, and also include team rivalries due to proximity, history, similar prestige/wealth.
 - [ ] Create a transfer market where you can buy and sell players, and possibly have contract expirations to your own players.
 
-[check me out @ justnaugr.github.io](http://justnaugr.github.io) and check out my other smaller project, [shellScore](https://github.com/JustnAugr/shellScore) a python based football match result script
+[check me out @ justnaugr.github.io](http://justnaugr.github.io) and check out my smaller project, [shellScore](https://github.com/JustnAugr/shellScore) a python based football match result script
